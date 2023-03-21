@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Генератор Паролей</title>
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            }
+
+            main {
+                margin: auto;
+                width: 100vw;
+                height: 100vh;
+
+                display: flex;
+                flex: 1 1 grow;
+                align-items: center;
+                justify-content: center;
+            }
+
+            form {
+                display: flex;
+                min-width: 500px;
+                min-height: 200px;
+                border-radius: 8px;
+                border: #000000;
+                border: 1px solid #434343;
+                background-color: #000000;
+            }
+
+            .container {
+                display: flex;
+                flex-grow: 1;
+                flex-direction: column-reverse;
+                padding: 20px 40px;
+            }
+
+            body {
+                background-color: #000000;
+                background-image: radial-gradient(circle at center, #434343 0%, #000000 50%);
+            }
+
+            .label {
+                color: white;
+                position: relative;
+                transition: top ease-out 200ms;
+                top: 20px;
+                line-height: 20px;
+                font-size: 18px;
+                z-index: -1;
+            }
+
+            .input {
+                font-size: 24px;
+                line-height: 28px;
+                padding: 8px;
+                border-radius: 8px;
+                border: solid 1px #434343;
+            }
+
+            .input:valid + .label {
+                top: 0;
+            }
+
+            .spacer {
+                flex: 1 1 auto;
+            }
+
+            .button {
+                font-size: 24px;
+                line-height: 28px;
+                padding: 8px;
+                border-radius: 8px;
+                border: solid 1px #434343;
+                background-color: #000000;
+                color: white;
+            }
+        </style>
+    </head>
+    <body>
+        <main>
+            <form th:action="@{/password/generate}" method="get">
+                <div class="container">
+                    <input class="button" type="submit" />
+                    <div class="spacer"></div>
+                    <input class="input" required name="length" id="length" placeholder="Введите длину пароля..." type="number" />
+                    <div class="label">
+                        <span class="inner-label">
+                            Введите длину пароля:
+                        </span>
+                    </div>
+                </div>
+            </form>
+        </main>
+        <script>
+            let form = document.querySelector('form')
+            let body = document.body
+            let outside = true
+
+            let reset = () => {
+                form.style.transform = `perspective(400px) rotateX(0) rotateY(0)`
+                body.style.backgroundImage = 'radial-gradient(circle at center, #434343 0%, #000000 50%)'
+            }
+
+            document.addEventListener('mousemove', (event) => {
+                if (outside) {
+                    let x = Math.max(Math.min(event.clientX, body.clientWidth / 2 + 300), body.clientWidth / 2 - 300)
+                    let y = Math.max(Math.min(event.clientY, body.clientHeight / 2 + 110), body.clientHeight / 2 - 110)
+
+                    let calcX = -(y - body.clientHeight / 2) / 33;
+                    let calcY = (x - body.clientWidth / 2) / 100;
+
+                    form.style.transform = `perspective(400px) rotateX(${calcX}deg) rotateY(${calcY}deg)`
+                    body.style.backgroundImage = `radial-gradient(circle at ${x}px ${y}px, #434343 0%, #000000 50%)`
+                }
+            })
+
+            document.addEventListener('mouseleave', () => {
+                reset()
+            })
+
+            form.addEventListener('mouseenter', () => {
+                outside = false
+                reset()
+            })
+
+            form.addEventListener('mouseleave', () => {
+                outside = true
+            })
+        </script>
+    </body>
+</html>
