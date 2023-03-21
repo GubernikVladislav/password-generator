@@ -7,5 +7,11 @@ import ru.gubernik.passwordgenerator.model.PasswordData;
 @Repository
 public interface PasswordDao extends JpaRepository<PasswordData, Integer> {
 
+    /**
+     * Поиск пароля по строке
+     *
+     * @param password строка с паролем
+     * @return данные пароля, если такой нашелся
+     */
     PasswordData findByPassword(String password);
 }

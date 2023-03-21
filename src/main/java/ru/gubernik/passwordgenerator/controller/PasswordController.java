@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ru.gubernik.passwordgenerator.service.PasswordService;
 
+/**
+ * Контроллер для обработки запроса на генерацию пароля
+ */
 @Controller
 @RequestMapping("/password")
 public class PasswordController {
